@@ -1,52 +1,1577 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#07101b">
 <title>GOOSIQ WALLET</title>
-<link rel="stylesheet" href="css/style.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap');
+:root{--bg:#050b12;--card:#0a1828;--line:#203a57;--gold:#f6bd45;--gold2:#ffe08e;--green:#28d39c;--red:#ff6578;--blue:#548fff;--text:#f6f9fc;--muted:#91a6bd}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;font-family:Cairo,Arial,sans-serif;color:var(--text);background:radial-gradient(circle at 10% 0,#173c63 0,#081523 34%,#040910 100%)}
+button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.5;cursor:not-allowed}
+input,select{width:100%;padding:14px 15px;border-radius:14px;border:1px solid var(--line);background:#071321;color:#fff;outline:none;transition:.2s}
+input:focus,select:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(246,189,69,.12)}input.invalid{border-color:var(--red);box-shadow:0 0 0 4px rgba(255,101,120,.11)}
+label{display:block;margin:15px 0 7px;font-weight:800}.hidden{display:none!important}.muted,small{color:var(--muted)}
+.primary{width:100%;border:0;border-radius:15px;padding:14px 18px;margin-top:18px;font-weight:900;color:#171208;background:linear-gradient(135deg,var(--gold),var(--gold2))}
+.secondary{border:1px solid var(--line);border-radius:12px;padding:10px 14px;background:#142a43;color:#fff}.danger{border:0;border-radius:10px;padding:9px 12px;background:var(--red);color:#fff}.success{border:0;border-radius:10px;padding:9px 12px;background:var(--green);color:#042016}
+#toast{position:fixed;z-index:9999;top:18px;left:50%;transform:translate(-50%,-150px);max-width:92vw;padding:14px 20px;border-radius:15px;background:#10243a;border:1px solid var(--line);box-shadow:0 20px 60px #0009;text-align:center;transition:.28s}#toast.show{transform:translate(-50%,0)}
+.loading::after{content:"";display:inline-block;width:16px;height:16px;margin-right:8px;border:2px solid #0004;border-top-color:#000;border-radius:50%;vertical-align:-3px;animation:spin .7s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+#authPage{min-height:100vh;display:grid;grid-template-columns:1.08fr .92fr}.brand{padding:68px;display:flex;flex-direction:column;justify-content:center;background:linear-gradient(135deg,rgba(14,49,84,.88),rgba(4,11,19,.72))}
+.logo{width:94px;height:94px;display:grid;place-items:center;border-radius:29px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#111;font-size:55px;font-weight:900;box-shadow:0 20px 70px #0007}.brand h1{font-size:54px;margin:24px 0 5px}.brand h1 span{color:var(--gold)}.brand p{font-size:18px;color:var(--muted)}
+.features{display:grid;gap:11px;margin-top:28px}.feature{padding:13px 16px;border-radius:15px;background:#0717279c;border:1px solid var(--line)}
+.auth-wrap{display:grid;place-items:center;padding:25px}.auth-card{width:min(510px,100%);padding:37px;border-radius:29px;background:rgba(8,21,36,.93);border:1px solid var(--line);box-shadow:0 30px 100px #0009}.auth-card h2{margin:0;font-size:28px}.switch{border:0;background:none;color:var(--gold);font-weight:900}.note{font-size:12px;color:var(--muted);margin-top:6px}
+.topbar{height:76px;position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:12px;padding:0 max(18px,5vw);background:rgba(5,14,24,.91);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.mini-logo{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#111;font-size:25px;font-weight:900}.top-title small{display:block}.logout-top{margin-right:auto;border:1px solid var(--line);border-radius:12px;padding:9px 13px;background:#12283f;color:#fff}
+main{max-width:1120px;margin:auto;padding:28px 18px 120px}.section{display:none}.section.active{display:block}
+.balance-card{padding:31px;border-radius:31px;background:linear-gradient(135deg,#194e7f,#0b223a);border:1px solid #376994;box-shadow:0 25px 80px #0006}.balance{font-size:46px;font-weight:900;margin:8px 0}
+.wallet-box{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border-radius:15px;background:rgba(3,12,22,.55)}.wallet-box b{letter-spacing:2px}.wallet-box button{border:0;border-radius:9px;padding:7px 13px;background:var(--gold);font-weight:900}
+.quick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}.quick{min-height:130px;border-radius:22px;border:1px solid var(--line);background:linear-gradient(145deg,#10263f,#0a1728);color:#fff;font-size:16px;font-weight:900}.quick strong{display:block;color:var(--gold);font-size:31px;margin-bottom:8px}
+.panel{margin-top:20px;padding:22px;border-radius:25px;border:1px solid var(--line);background:rgba(8,21,36,.91);box-shadow:0 18px 55px #0004}.panel h2,.panel h3{margin-top:0}.toolbar{display:flex;gap:10px;margin-bottom:14px}.toolbar>*{flex:1}
+.tx{display:flex;justify-content:space-between;gap:14px;padding:16px 0;border-bottom:1px solid #1a3048}.tx:last-child{border-bottom:0}.tx small{display:block}.amount{text-align:left;font-weight:900}
+.status{display:inline-block;padding:4px 10px;border-radius:20px;font-size:11px;margin-top:4px;background:#20384f;color:#ccdae7}.status.pending{background:#4a3b19;color:#f6d377}.status.completed,.status.approved,.status.verified{background:#123e34;color:#68e7bb}.status.rejected,.status.blocked{background:#4a2029;color:#ff9fac}
+.bottom-nav{position:fixed;z-index:40;bottom:18px;left:50%;transform:translateX(-50%);width:min(680px,93vw);display:flex;justify-content:space-around;padding:9px;border-radius:28px;background:rgba(8,24,40,.91);border:1px solid var(--line);backdrop-filter:blur(16px);box-shadow:0 15px 55px #0008}.bottom-nav button{background:none;border:0;color:#9fb4c9;font-size:19px}.bottom-nav span{display:block;font-size:10px}.bottom-nav .active{color:var(--gold)}
+.whatsapp{position:fixed;z-index:35;left:25px;bottom:105px;width:58px;height:58px;display:grid;place-items:center;border-radius:50%;background:#25d366;color:#fff;text-decoration:none;font-size:29px;box-shadow:0 15px 42px #0008}
+.modal{display:none;position:fixed;inset:0;z-index:100;background:#000b;padding:18px;overflow:auto}.modal.show{display:grid;place-items:center}.modal-box{position:relative;width:min(560px,100%);padding:28px;border-radius:27px;background:#0a192a;border:1px solid var(--line);box-shadow:0 30px 100px #0009}.close{position:absolute;left:15px;top:9px;border:0;background:none;color:#fff;font-size:30px}
+.route,.info{padding:13px;border-radius:14px;background:#071321;margin-top:10px}.route{text-align:center}.route span{display:block;color:var(--muted);font-size:12px}.arrow{text-align:center;color:var(--gold);font-size:25px}.info b{display:block;color:var(--gold);word-break:break-word}.copy-mini{margin-top:7px;border:0;border-radius:9px;padding:7px 11px;background:#213c57;color:#fff}.confirm{padding:14px;margin-top:14px;border-radius:15px;border:1px solid #36516d;background:#071321}
+.admin-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.admin-grid button{min-height:118px;border-radius:21px;border:1px solid var(--line);background:linear-gradient(145deg,#10263e,#0a1727);color:#fff;font-weight:900}.admin-grid strong{display:block;color:var(--gold);font-size:29px}.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}.actions button{border:0;border-radius:9px;padding:8px 10px}.edit{background:var(--blue);color:#fff}.block{background:var(--red);color:#fff}.approve{background:var(--green);color:#052017}.reject{background:var(--red);color:#fff}.preview{display:block;max-width:125px;max-height:125px;margin-top:9px;border-radius:12px;border:1px solid var(--line)}.reason{margin-top:6px;color:#ffabb6;font-size:12px}
+
+/* Verification banner */
+.verify-banner{margin-top:20px;padding:18px 20px;border-radius:22px;border:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:16px;background:linear-gradient(135deg,#122b45,#0b1a2a);box-shadow:0 16px 45px #0004}
+.verify-banner .verify-icon{width:52px;height:52px;min-width:52px;border-radius:16px;display:grid;place-items:center;font-size:25px;background:#203a57}
+.verify-banner .verify-copy{flex:1}.verify-banner h3{margin:0 0 5px;font-size:17px}.verify-banner p{margin:0;color:var(--muted);font-size:13px}
+.verify-banner button{border:0;border-radius:12px;padding:10px 14px;font-weight:900}
+.verify-banner.unverified{border-color:#665225;background:linear-gradient(135deg,#332a16,#15140d)}
+.verify-banner.unverified .verify-icon{background:#493b1b;color:#ffd36f}.verify-banner.unverified button{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#171208}
+.verify-banner.pending{border-color:#46637c;background:linear-gradient(135deg,#17304a,#0d1c2a)}
+.verify-banner.pending .verify-icon{background:#1b3c58;color:#82c8ff}.verify-banner.pending button{background:#1a3550;color:#9bcfff}
+.verify-banner.verified{border-color:#256b57;background:linear-gradient(135deg,#12382e,#0a201b)}
+.verify-banner.verified .verify-icon{background:#17493b;color:#67e4b9}.verify-banner.verified button{background:#17493b;color:#67e4b9}
+.verify-banner.rejected{border-color:#7a3140;background:linear-gradient(135deg,#3b1920,#1d1013)}
+.verify-banner.rejected .verify-icon{background:#54202b;color:#ff9bad}.verify-banner.rejected button{background:#642535;color:#ffb0bd}
+
+/* Admin user cards */
+.user-admin-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.user-admin-card{position:relative;overflow:hidden;padding:20px;border-radius:24px;border:1px solid #1f3b58;background:linear-gradient(145deg,#0d2034,#091522);box-shadow:0 18px 50px #0003}
+.user-admin-card::before{content:"";position:absolute;top:-55px;left:-55px;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle,rgba(246,189,69,.12),transparent 68%)}
+.user-head{display:flex;align-items:center;gap:12px;position:relative}
+.user-avatar{width:50px;height:50px;min-width:50px;border-radius:16px;display:grid;place-items:center;font-weight:900;font-size:20px;color:#15110a;background:linear-gradient(135deg,var(--gold),var(--gold2))}
+.user-head-info{min-width:0;flex:1}.user-head-info h3{margin:0;font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.user-head-info small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.user-state{padding:6px 10px;border-radius:18px;font-size:11px;font-weight:800;background:#15382f;color:#68e7bb}.user-state.blocked{background:#4a2029;color:#ff9fac}
+.user-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:17px}
+.user-info-box{padding:11px 12px;border-radius:14px;background:#071321;border:1px solid #172e45}.user-info-box span{display:block;color:var(--muted);font-size:11px;margin-bottom:3px}.user-info-box b{font-size:13px;word-break:break-word}
+.user-balance{grid-column:1/-1;background:linear-gradient(135deg,#102b46,#0b1c2d)}.user-balance b{color:var(--gold);font-size:17px}
+.user-card-actions{display:flex;gap:9px;margin-top:16px}.user-card-actions button{flex:1;border:0;border-radius:12px;padding:10px 12px;font-weight:900;transition:.2s}
+.user-card-actions button:hover{transform:translateY(-1px)}
+.user-card-actions .edit-user-btn{background:linear-gradient(135deg,#3c78e8,#5a98ff);color:#fff}
+.user-card-actions .block-user-btn{background:linear-gradient(135deg,#7b2636,#ff6578);color:#fff}
+.user-card-actions .unblock-user-btn{background:linear-gradient(135deg,#18765d,#2bd39d);color:#052017}
+
+@media(max-width:800px){#authPage{grid-template-columns:1fr}.brand{padding:38px 24px;min-height:265px}.brand h1{font-size:36px}.auth-card{padding:25px}.quick-grid{grid-template-columns:1fr}.admin-grid{grid-template-columns:1fr 1fr}.toolbar{flex-direction:column}.balance{font-size:36px}.user-admin-list{grid-template-columns:1fr}.verify-banner{align-items:flex-start}.verify-banner button{width:100%}}
+
+/* Premium notifications + admin edit */
+#toast{display:flex;align-items:center;gap:12px;min-width:min(420px,92vw);padding:15px 18px!important;text-align:right!important;border-radius:18px!important}
+#toast .toast-icon{width:36px;height:36px;min-width:36px;border-radius:12px;display:grid;place-items:center;font-weight:900;font-size:18px}
+#toast .toast-text{flex:1;line-height:1.65}
+#toast.success-toast{border-color:#2e745f;background:linear-gradient(135deg,#10382e,#0d2830)}
+#toast.success-toast .toast-icon{background:#174d3e;color:#70e8be}
+#toast.error-toast{border-color:#7b3342;background:linear-gradient(135deg,#3b1921,#25131a)}
+#toast.error-toast .toast-icon{background:#5a2430;color:#ffabb8}
+#toast.info-toast{border-color:#3a6186;background:linear-gradient(135deg,#17334e,#10243a)}
+#toast.info-toast .toast-icon{background:#1b4264;color:#9bd0ff}
+.edit-user-modal .modal-box{width:min(760px,100%);padding:30px}
+.edit-user-header{display:flex;align-items:center;gap:14px;padding-bottom:18px;border-bottom:1px solid var(--line);margin-bottom:18px}
+.edit-user-avatar{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#171208;font-weight:900;font-size:22px}
+.edit-user-header h2{margin:0}.edit-user-header p{margin:3px 0 0;color:var(--muted);font-size:12px}
+.edit-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.edit-field{padding:13px;border-radius:17px;background:#071321;border:1px solid #19334e}
+.edit-field label{margin:0 0 7px;font-size:12px;color:#a9bdd0}
+.edit-field input,.edit-field select{background:#0a1a2a}
+.edit-field.full{grid-column:1/-1}
+.edit-hint{margin-top:6px;font-size:11px;color:var(--muted)}
+.edit-actions{display:flex;gap:10px;margin-top:18px}
+.edit-actions button{flex:1;border-radius:14px;padding:12px 15px;font-weight:900}
+.save-user-btn{border:0;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#171208}
+.cancel-user-btn{border:1px solid var(--line);background:#132941;color:#fff}
+.pretty-dialog .modal-box{width:min(460px,100%);text-align:center}
+.dialog-icon{width:68px;height:68px;margin:0 auto 14px;border-radius:22px;display:grid;place-items:center;font-size:31px;background:#172f48}
+.dialog-icon.warning{background:#4d2730;color:#ff9dac}.dialog-icon.info{background:#183b59;color:#9bd0ff}
+.pretty-dialog h3{font-size:21px;margin:0 0 8px}.pretty-dialog p{color:var(--muted);line-height:1.8;margin:0 0 14px}
+.dialog-input{margin:8px 0 2px}
+.dialog-actions{display:flex;gap:9px;margin-top:16px}.dialog-actions button{flex:1;border-radius:13px;padding:11px 13px;font-weight:900}
+.dialog-confirm{border:0;background:linear-gradient(135deg,#f6bd45,#ffe08e);color:#171208}
+.dialog-danger{border:0;background:linear-gradient(135deg,#8d2c3e,#ff6578);color:#fff}
+.dialog-cancel{border:1px solid var(--line);background:#132941;color:#fff}
+@media(max-width:650px){.edit-form-grid{grid-template-columns:1fr}.edit-field.full{grid-column:auto}.edit-actions,.dialog-actions{flex-direction:column}}
+
+
+/* Transfer premium UI */
+.transfer-box{width:min(620px,100%)!important}
+.transfer-recipient-card{
+  display:flex;align-items:center;gap:14px;margin-top:10px;padding:16px 17px;
+  border-radius:18px;border:1px solid #284763;background:linear-gradient(135deg,#0d2338,#091827);
+  min-height:78px;transition:.2s
+}
+.transfer-recipient-card.found{border-color:#2c8066;background:linear-gradient(135deg,#12382f,#0b211d)}
+.transfer-recipient-card.error{border-color:#7c3544;background:linear-gradient(135deg,#351820,#211117)}
+.recipient-avatar{
+  width:48px;height:48px;min-width:48px;border-radius:15px;display:grid;place-items:center;
+  font-size:21px;font-weight:900;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#171208
+}
+.recipient-copy{min-width:0;flex:1}
+.recipient-copy small{display:block;margin-bottom:2px;color:var(--muted)}
+#recipientName{
+  font-size:19px!important;font-weight:900!important;color:#fff!important;line-height:1.5;
+  white-space:normal;word-break:break-word
+}
+.transfer-recipient-card.found #recipientName{color:#83efc9!important}
+.transfer-recipient-card.error #recipientName{color:#ffadb9!important}
+.transfer-confirm-card{
+  margin-top:18px;padding:0;border-radius:22px;overflow:hidden;
+  border:1px solid #36526d;background:linear-gradient(145deg,#0d2134,#081522);
+  box-shadow:0 18px 50px #0005
+}
+.transfer-confirm-head{
+  padding:18px 19px;background:linear-gradient(135deg,#173653,#0e2439);
+  border-bottom:1px solid #2b4965
+}
+.transfer-confirm-head small{display:block;color:var(--muted);margin-bottom:2px}
+.transfer-confirm-head h3{margin:0;font-size:21px;color:#fff}
+.transfer-confirm-body{padding:16px 18px}
+.transfer-detail{
+  display:flex;justify-content:space-between;align-items:center;gap:14px;
+  padding:11px 0;border-bottom:1px solid #183149
+}
+.transfer-detail:last-child{border-bottom:0}
+.transfer-detail span{color:var(--muted);font-size:13px}
+.transfer-detail b{text-align:left;font-size:14px;word-break:break-word}
+.transfer-detail.recipient b{font-size:18px;color:#82edc8}
+.transfer-total-row{
+  margin-top:11px;padding:14px 15px;border-radius:15px;
+  display:flex;justify-content:space-between;align-items:center;
+  background:linear-gradient(135deg,#2e2614,#17150e);border:1px solid #655125
+}
+.transfer-total-row span{color:#e4c985;font-size:13px}
+.transfer-total-row b{font-size:21px;color:var(--gold)}
+.transfer-confirm-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 18px 18px}
+.transfer-confirm-actions .primary{margin:0}
+.transfer-confirm-actions .secondary{padding:13px 15px}
+@media(max-width:520px){
+ .transfer-confirm-actions{grid-template-columns:1fr}
+ .transfer-detail{align-items:flex-start;flex-direction:column;gap:3px}
+ .transfer-detail b{text-align:right}
+}
+
+</style>
 </head>
-<body class="auth-page">
-<div class="auth-shell">
-  <section class="brand-panel">
-    <div class="logo-mark">G</div>
-    <h1>GOOSIQ <span>WALLET</span></h1>
-    <p>محفظتك الرقمية بتجربة عصرية وسهلة.</p>
-  </section>
-  <section class="auth-card">
-    <div id="loginView">
-      <h2>مرحبًا بعودتك</h2><p class="muted">سجّل الدخول إلى محفظتك</p>
-      <form id="loginForm">
-        <label>البريد الإلكتروني أو اسم المستخدم</label>
-        <input id="loginIdentifier" required>
-        <label>كلمة المرور</label>
-        <input id="loginPassword" type="password" required>
-        <button class="primary" type="submit">تسجيل الدخول</button>
-      </form>
-      <button class="link-btn" id="forgotBtn">نسيت كلمة المرور؟</button>
-      <p>ليس لديك حساب؟ <button class="text-action" data-view="register">إنشاء حساب</button></p>
-    </div>
+<body>
+<div id="toast"></div>
 
-    <div id="registerView" hidden>
-      <h2>إنشاء حساب جديد</h2>
-      <form id="registerForm">
-        <label>الاسم الثلاثي</label><input id="fullName" required placeholder="مثال: محمد أحمد كريم">
-        <label>البريد الإلكتروني</label><input id="email" type="email" required>
-        <label>رقم الهاتف</label><input id="phone" inputmode="numeric" maxlength="11" placeholder="077xxxxxxxx">
-        <small>رقم الهاتف هذا هو الذي سوف يستخدم لتعبئة المحفظة فقط ولا يمكن تغييره لاحقًا.</small>
-        <label>اسم المستخدم</label><input id="username" required>
-        <label>كلمة المرور</label><input id="password" type="password" minlength="6" required>
-        <button class="primary" type="submit">إنشاء الحساب</button>
-      </form>
-      <p>لديك حساب؟ <button class="text-action" data-view="login">تسجيل الدخول</button></p>
-    </div>
+<div id="authPage">
+<section class="brand"><div class="logo">G</div><h1>GOOSIQ <span>WALLET</span></h1><p>محفظتك الإلكترونية لإدارة الإيداع والسحب والتحويل بسهولة.</p><div class="features"><div class="feature">✦ Firebase لجميع البيانات النصية</div><div class="feature">✦ Cloudflare R2 للصور فقط</div><div class="feature">✦ سجل عمليات ولوحة إدارة كاملة</div></div></section>
+<section class="auth-wrap"><div class="auth-card">
+<div id="loginView"><h2>تسجيل الدخول</h2><p class="muted">استخدم البريد الإلكتروني أو اسم المستخدم.</p><form id="loginForm"><label>البريد الإلكتروني أو اسم المستخدم</label><input id="loginIdentifier" required autocomplete="username"><label>كلمة المرور</label><input id="loginPassword" type="password" required autocomplete="current-password"><button id="loginSubmit" class="primary">تسجيل الدخول</button></form><button class="switch" id="forgotSwitch">نسيت كلمة المرور؟</button><p>ليس لديك حساب؟ <button class="switch" id="registerSwitch">إنشاء حساب</button></p></div>
+<div id="registerView" class="hidden"><h2>إنشاء حساب جديد</h2><form id="registerForm"><label>الاسم الثلاثي</label><input id="fullName" required placeholder="مثال: محمد أحمد كريم"><label>البريد الإلكتروني</label><input id="email" type="email" required><label>رقم الهاتف</label><input id="phone" inputmode="numeric" maxlength="11" required placeholder="077xxxxxxxx"><div class="note">رقم الهاتف هذا هو الذي سوف يستخدم لتعبئة المحفظة فقط ولا يمكن تغييره لاحقًا.</div><label>اسم المستخدم</label><input id="username" required maxlength="30"><label>كلمة المرور</label><input id="password" type="password" minlength="6" required><button id="registerSubmit" class="primary">إنشاء الحساب</button></form><p>لديك حساب؟ <button class="switch" id="loginSwitch">تسجيل الدخول</button></p></div>
+<div id="forgotView" class="hidden"><h2>استعادة كلمة المرور</h2><form id="forgotForm"><label>البريد الإلكتروني</label><input id="resetEmail" type="email" required><button id="forgotSubmit" class="primary">إرسال رابط الاستعادة</button></form><button class="switch" id="forgotBack">رجوع</button></div>
+</div></section></div>
 
-    <div id="forgotView" hidden>
-      <h2>إعادة تعيين كلمة المرور</h2>
-      <form id="forgotForm"><label>البريد الإلكتروني</label><input id="resetEmail" type="email" required><button class="primary">إرسال الرابط</button></form>
-      <button class="text-action" data-view="login">رجوع</button>
-    </div>
-    <div id="toast" class="toast"></div>
-  </section>
+<div id="appPage" class="hidden">
+<header class="topbar"><div class="mini-logo">G</div><div class="top-title"><b>GOOSIQ WALLET</b><small id="welcomeName"></small></div><button id="logoutTop" class="logout-top">تسجيل الخروج</button></header>
+<main>
+<section id="homeSection" class="section active"><div class="balance-card"><div class="muted">الرصيد الحالي</div><div id="balance" class="balance">0 د.ع</div><div class="wallet-box"><b id="walletNumber">G--------</b><button id="copyWallet">نسخ</button></div></div><div class="quick-grid"><button class="quick" data-modal="depositModal"><strong>＋</strong>تعبئة المحفظة</button><button class="quick" data-modal="withdrawModal"><strong>↓</strong>سحب الأموال</button><button class="quick" data-modal="transferModal"><strong>⇄</strong>تحويل</button></div><div id="verificationBanner" class="verify-banner unverified"><div class="verify-icon">🪪</div><div class="verify-copy"><h3>وثّق حسابك الآن</h3><p>فعّل السحب والتحويل بعد إكمال توثيق الحساب.</p></div><button id="homeVerifyBtn">توثيق الحساب</button></div><div class="panel"><h3>آخر العمليات</h3><div id="recentTransactions"></div></div></section>
+<section id="profileSection" class="section"><div class="panel"><h2>المعلومات الشخصية</h2><div id="profileData"></div><button id="verifyBtn" class="primary">توثيق الحساب</button></div></section>
+<section id="transactionsSection" class="section"><div class="panel"><h2>جميع العمليات</h2><div class="toolbar"><input id="transactionSearch" placeholder="البحث برقم العملية"><select id="transactionFilter"><option value="all">كل العمليات</option><option value="deposit">الإيداع</option><option value="withdraw">السحب</option><option value="transfer">التحويلات المرسلة</option><option value="transfer_received">التحويلات المستلمة</option></select></div><div id="allTransactions"></div></div></section>
+</main><nav class="bottom-nav"><button class="active" data-section="homeSection">⌂<span>الرئيسية</span></button><button data-section="profileSection">♙<span>الحساب</span></button><button data-section="transactionsSection">⇅<span>العمليات</span></button><button id="logoutBtn">⇥<span>خروج</span></button></nav><a class="whatsapp" href="https://wa.me/message/LPX3FF4TG4XWK1" target="_blank" rel="noopener">☏</a>
 </div>
-<script type="module" src="js/auth.js"></script>
-</body></html>
+
+<div id="adminPage" class="hidden">
+<header class="topbar"><div class="mini-logo">G</div><div class="top-title"><b>GOOSIQ WALLET — ADMIN</b><small>لوحة الإدارة</small></div><button id="adminLogout" class="logout-top">تسجيل الخروج</button></header>
+<main><div class="admin-grid"><button data-admin="users"><strong>👥</strong>المستخدمون</button><button data-admin="verifications"><strong>🪪</strong>طلبات التوثيق</button><button data-admin="deposits"><strong>＋</strong>طلبات الإيداع</button><button data-admin="withdrawals"><strong>↓</strong>طلبات السحب</button></div><div class="panel"><div class="toolbar"><input id="adminSearch" placeholder="البحث..."><select id="adminStatus"><option value="all">كل الحالات</option><option value="pending">قيد المراجعة</option><option value="approved">مقبول</option><option value="rejected">مرفوض</option></select><select id="adminSort"><option value="desc">الأحدث أولًا</option><option value="asc">الأقدم أولًا</option></select></div><div id="adminContent"></div></div></main>
+</div>
+
+<div class="modal" id="depositModal"><div class="modal-box"><button class="close">×</button><h2>تعبئة المحفظة</h2><div class="route"><span>من</span><b id="depositPhone"></b></div><div class="arrow">↓</div><div class="route"><span>إلى</span><b>07732773761</b></div><label>المبلغ</label><input id="depositAmount" type="number" min="10000" max="60000" step="1"><div class="info">كود التحويل<b id="ussdCode">*123*المبلغ*07732773761#</b><button id="copyUssd" class="copy-mini">نسخ الكود</button></div><div class="info">المبلغ الصافي الذي سيضاف للمحفظة<b id="netAmount">0 د.ع</b></div><label>صورة إثبات التحويل</label><input id="depositImage" type="file" accept="image/jpeg,image/png,image/webp"><small id="imageInfo">سيتم ضغط الصورة تلقائيًا إلى 30KB أو أقل ثم رفعها إلى Cloudflare R2 فقط.</small><button id="submitDeposit" class="primary">إرسال طلب الإيداع</button></div></div>
+<div class="modal" id="verifyModal"><div class="modal-box"><button class="close">×</button><h2>توثيق الحساب</h2><label>اسم صاحب حساب الرافدين / SuperQi</label><input id="bankName" maxlength="80"><label>رقم حساب الرافدين</label><input id="bankAccount" maxlength="12" inputmode="numeric"><small>اكتب رقم الحساب وليس رقم البطاقة. لا يمكن تغييره بعد الإرسال.</small><button id="submitVerification" class="primary">إرسال طلب التوثيق</button></div></div>
+<div class="modal" id="withdrawModal"><div class="modal-box"><button class="close">×</button><h2>سحب الأموال</h2><div id="withdrawAccountInfo" class="info"></div><label>المبلغ</label><input id="withdrawAmount" type="number" min="10000" max="60000" step="1"><div class="info">عمولة السحب<b>250 د.ع</b><span>الإجمالي المحجوز: <b id="withdrawTotal">250 د.ع</b></span></div><button id="submitWithdraw" class="primary">إرسال طلب السحب</button></div></div>
+<div class="modal" id="transferModal">
+  <div class="modal-box transfer-box">
+    <button class="close">×</button>
+    <h2>تحويل بين المحافظ</h2>
+    <p class="muted">أدخل رقم محفظة المستلم وتأكد من الاسم قبل تنفيذ التحويل.</p>
+
+    <label>رقم المحفظة المستلمة</label>
+    <input id="targetWallet" maxlength="9" placeholder="G12345678">
+
+    <div id="recipientCard" class="transfer-recipient-card">
+      <div class="recipient-avatar">G</div>
+      <div class="recipient-copy">
+        <small>صاحب المحفظة</small>
+        <div id="recipientName">أدخل رقم المحفظة لعرض الاسم</div>
+      </div>
+    </div>
+
+    <label>المبلغ</label>
+    <input id="transferAmount" type="number" min="1" max="100000" step="1">
+
+    <div class="info">
+      عمولة التحويل
+      <b>250 د.ع</b>
+      <span>الإجمالي: <b id="transferTotal">250 د.ع</b></span>
+    </div>
+
+    <button id="prepareTransfer" class="primary">مراجعة تفاصيل التحويل</button>
+
+    <div id="transferConfirm" class="transfer-confirm-card hidden">
+      <div class="transfer-confirm-head">
+        <small>راجع المعلومات قبل الإرسال</small>
+        <h3>تأكيد التحويل</h3>
+      </div>
+      <div id="confirmDetails" class="transfer-confirm-body"></div>
+      <div class="transfer-confirm-actions">
+        <button id="confirmTransfer" class="primary">تأكيد وإرسال الأموال</button>
+        <button id="cancelTransfer" class="secondary">رجوع للتعديل</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal edit-user-modal" id="editUserModal">
+  <div class="modal-box">
+    <button class="close" id="closeEditUser">×</button>
+    <div class="edit-user-header">
+      <div class="edit-user-avatar" id="editAvatar">U</div>
+      <div><h2>تعديل بيانات المستخدم</h2><p id="editUserSubtitle">قم بتعديل الحقول المطلوبة ثم احفظ التغييرات.</p></div>
+    </div>
+    <input type="hidden" id="editUid">
+    <div class="edit-form-grid">
+      <div class="edit-field full"><label>الاسم الثلاثي</label><input id="editFullName"></div>
+      <div class="edit-field"><label>البريد الإلكتروني</label><input id="editEmail" type="email" readonly><div class="edit-hint">البريد مرتبط بـ Firebase Authentication ولا يتم تغييره من هذه النافذة حفاظًا على تسجيل الدخول.</div></div>
+      <div class="edit-field"><label>اسم المستخدم</label><input id="editUsername"></div>
+      <div class="edit-field"><label>رقم الهاتف</label><input id="editPhone" inputmode="numeric" maxlength="11"></div>
+      <div class="edit-field"><label>رقم المحفظة</label><input id="editWalletNumber" maxlength="9"></div>
+      <div class="edit-field"><label>حالة التوثيق</label><select id="editVerificationStatus"><option value="unverified">غير موثق</option><option value="pending">قيد المراجعة</option><option value="verified">موثق</option><option value="rejected">مرفوض</option></select></div>
+      <div class="edit-field"><label>الرصيد الحالي</label><input id="editBalance" type="number" min="0" step="1"><div class="edit-hint">أي تغيير سيُسجّل كعملية تعديل إداري.</div></div>
+      <div class="edit-field"><label>اسم حساب الرافدين / SuperQi</label><input id="editBankName"></div>
+      <div class="edit-field"><label>رقم حساب الرافدين</label><input id="editBankAccount" inputmode="numeric" maxlength="12"></div>
+      <div class="edit-field full"><label>حالة الحساب</label><input id="editBlockedState" readonly></div>
+    </div>
+    <div class="edit-actions"><button id="saveUserChanges" class="save-user-btn">حفظ التغييرات</button><button id="cancelEditUser" class="cancel-user-btn">إلغاء</button></div>
+  </div>
+</div>
+<div class="modal pretty-dialog" id="prettyDialog">
+  <div class="modal-box">
+    <div class="dialog-icon info" id="dialogIcon">i</div>
+    <h3 id="dialogTitle">تأكيد</h3>
+    <p id="dialogMessage"></p>
+    <input id="dialogInput" class="dialog-input hidden">
+    <div class="dialog-actions"><button id="dialogConfirm" class="dialog-confirm">تأكيد</button><button id="dialogCancel" class="dialog-cancel">إلغاء</button></div>
+  </div>
+</div>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+import {getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,sendPasswordResetEmail,onAuthStateChanged,signOut,deleteUser} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+import {getDatabase,ref,onValue,get,update,runTransaction,increment} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+import {getFunctions,httpsCallable} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-functions.js";
+
+const firebaseConfig={apiKey:"AIzaSyBSo7G18kfFr-Rc48AD-IWk7APqXk33X-o",authDomain:"asaiseel.firebaseapp.com",databaseURL:"https://asaiseel-default-rtdb.firebaseio.com",projectId:"asaiseel",storageBucket:"asaiseel.firebasestorage.app",messagingSenderId:"1044352875279",appId:"1:1044352875279:web:f67a378862d5010d2c5c7a",measurementId:"G-9F2T849TMK"};
+const R2_WORKER="https://misty-math-b171.mojtabakareem77.workers.dev";
+const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getDatabase(app),functions=getFunctions(app,"us-central1");
+const $=id=>document.getElementById(id);
+let currentUser=null,profile=null,transactions=[],actualBalance=0,pendingTransfer=null,unsubs=[],adminMode="users",adminData=[],lookupTimer=null;
+const fn=n=>httpsCallable(functions,n);
+const fRegister=fn("registerProfile"),fResolve=fn("resolveUsername"),fVerify=fn("createVerificationRequest"),fDeposit=fn("createDepositRequest"),fWithdraw=fn("createWithdrawalRequest"),fLookup=fn("lookupWallet"),fTransfer=fn("transferFunds"),fTransferHealth=fn("transferHealth"),fAdminDecision=fn("adminDecision"),fToggleBlock=fn("toggleUserBlock"),fEditUser=fn("editUserProfile");
+
+function toast(m,type="info"){
+ const t=$("toast");
+ const cfg=type==="success"?{cls:"success-toast",icon:"✓"}:type==="error"?{cls:"error-toast",icon:"!"}:{cls:"info-toast",icon:"i"};
+ t.className=cfg.cls;
+ t.innerHTML=`<div class="toast-icon">${cfg.icon}</div><div class="toast-text">${esc(m)}</div>`;
+ t.classList.add("show");
+ clearTimeout(toast.t);
+ toast.t=setTimeout(()=>t.classList.remove("show"),4300);
+}
+const money=n=>new Intl.NumberFormat("ar-IQ").format(Math.round(Number(n)||0))+" د.ع";
+function clientTransactionId(){
+ const a=new Uint32Array(2);
+ crypto.getRandomValues(a);
+ const n=(BigInt(a[0])<<32n)|BigInt(a[1]);
+ return String(n%1000000000000n).padStart(12,"0");
+}
+
+function pendingWithdrawalHold(){
+ return 0;
+}
+
+function availableBalance(){
+ return Math.max(0,Number(actualBalance||0));
+}
+
+function renderWalletBalance(){
+ const available=availableBalance();
+ $("balance").textContent=money(available);
+
+ if(profile){
+   profile.balance=available;
+   profile.actualBalance=Number(actualBalance||0);
+ }
+}
+
+async function syncOwnWalletDirectory(){
+ if(!currentUser||!profile?.walletNumber||!profile?.fullName)return;
+
+ const wallet=String(profile.walletNumber).toUpperCase();
+ if(!/^G\d{8}$/.test(wallet))return;
+
+ try{
+   await update(ref(db,`walletDirectory/${wallet}`),{
+     uid:currentUser.uid,
+     walletNumber:wallet,
+     fullName:profile.fullName||"",
+     blocked:profile.blocked===true
+   });
+ }catch(e){
+   console.warn("Wallet directory sync skipped:",e);
+ }
+}
+
+async function syncWalletDirectoryAsAdmin(){
+ try{
+   const usersSnap=await get(ref(db,"users"));
+   const users=usersSnap.val()||{};
+   const updates={};
+
+   for(const [uid,u] of Object.entries(users)){
+     const wallet=String(u?.walletNumber||"").toUpperCase();
+
+     if(/^G\d{8}$/.test(wallet)){
+       updates[`walletDirectory/${wallet}`]={
+         uid,
+         walletNumber:wallet,
+         fullName:u?.fullName||"",
+         blocked:u?.blocked===true
+       };
+     }
+   }
+
+   if(Object.keys(updates).length){
+     await update(ref(db),updates);
+   }
+ }catch(e){
+   console.warn("Admin wallet directory backfill skipped:",e);
+ }
+}
+
+async function lookupWalletDirect(wallet){
+ const w=clean(wallet).toUpperCase();
+
+ if(!/^G\d{8}$/.test(w))
+   throw Error("رقم المحفظة يجب أن يكون بالشكل G12345678");
+
+ if(profile?.walletNumber===w)
+   throw Error("لا يمكنك التحويل إلى محفظتك نفسها");
+
+ const snap=await get(ref(db,`walletDirectory/${w}`));
+ const data=snap.val();
+
+ if(!data?.uid||!data?.fullName)
+   throw Error("لم يتم العثور على هذه المحفظة. تأكد من رقم المحفظة.");
+
+ if(data.blocked===true)
+   throw Error("هذه المحفظة محظورة حاليًا");
+
+ return {
+   uid:data.uid,
+   walletNumber:w,
+   fullName:data.fullName
+ };
+}
+
+
+const clean=v=>String(v??"").trim();const validName=v=>clean(v).split(/\s+/).filter(Boolean).length>=3;const validPhone=v=>/^077\d{8}$/.test(v);
+const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+function busy(btn,on,text){btn.disabled=on;btn.classList.toggle("loading",on);if(on){btn.dataset.old=btn.textContent;btn.textContent=text||"جاري التنفيذ"}else if(btn.dataset.old){btn.textContent=btn.dataset.old;delete btn.dataset.old}}
+function errMsg(e){
+ const details=e?.details;
+ if(typeof details==="string"&&details.trim())return details;
+ if(details?.message)return String(details.message);
+
+ const code=String(e?.code||"").replace(/^functions\//,"");
+ let m=String(e?.message||"").trim();
+ m=m.replace(/^FirebaseError:\s*/,"").replace(/^functions\/[a-z-]+:\s*/,"");
+
+ if(code==="permission-denied")return m&&m!=="permission-denied"?m:"هذا الحساب لا يمتلك صلاحيات الإدارة.";
+ if(code==="unauthenticated")return "انتهت جلسة تسجيل الدخول. سجل الدخول مرة أخرى.";
+ if(code==="already-exists")return m||"هذه البيانات مستخدمة مسبقًا.";
+ if(code==="invalid-argument")return m||"بعض البيانات المدخلة غير صحيحة.";
+ if(code==="failed-precondition")return m||"تعذر تنفيذ العملية بسبب حالة الحساب أو البيانات.";
+
+ if(code==="not-found")
+   return "دالة Firebase المطلوبة غير منشورة في مشروع asaiseel. انشر مجلد functions مرة واحدة ثم أعد المحاولة.";
+ if(code==="unavailable")
+   return "تعذر الاتصال بـ Firebase Functions الآن. تحقق من الاتصال ثم أعد المحاولة.";
+ if(code==="deadline-exceeded")
+   return "استغرقت Firebase Functions وقتًا أطول من اللازم. أعد المحاولة.";
+
+ if(!m||m==="internal"||/^internal\s*\[\d+\]$/i.test(m))
+   return "حدث خطأ داخل Firebase Functions. افتح سجل Functions في Firebase لمعرفة الخطأ الخادمي الفعلي.";
+
+ return m;
+}
+function clearListeners(){unsubs.forEach(u=>{try{u()}catch{}});unsubs=[]}
+function showAuth(v="login"){clearListeners();$("authPage").classList.remove("hidden");$("appPage").classList.add("hidden");$("adminPage").classList.add("hidden");["login","register","forgot"].forEach(x=>$(x+"View").classList.toggle("hidden",x!==v))}
+$("registerSwitch").onclick=()=>showAuth("register");$("loginSwitch").onclick=()=>showAuth("login");$("forgotSwitch").onclick=()=>showAuth("forgot");$("forgotBack").onclick=()=>showAuth("login");
+$("phone").oninput=e=>e.target.value=e.target.value.replace(/\D/g,"").slice(0,11);$("bankAccount").oninput=e=>e.target.value=e.target.value.replace(/\D/g,"").slice(0,12);
+$("targetWallet").oninput=e=>{e.target.value=e.target.value.toUpperCase().replace(/[^G0-9]/g,"").slice(0,9);clearTimeout(lookupTimer);lookupTimer=setTimeout(walletLookup,350)};
+
+$("registerForm").onsubmit=async e=>{e.preventDefault();const btn=$("registerSubmit"),fullName=clean($("fullName").value),email=clean($("email").value).toLowerCase(),phone=clean($("phone").value),username=clean($("username").value),password=$("password").value;
+ if(!validName(fullName))return toast("يجب أن يحتوي الاسم على ثلاثة أسماء على الأقل");if(email.endsWith("@goosiq.com"))return toast("نطاق @GOOSIQ.COM مخصص للإدارة فقط");if(!validPhone(phone))return toast("رقم الهاتف يجب أن يبدأ بـ 077 ويتكون من 11 رقمًا");if(username.length<3)return toast("اسم المستخدم يجب أن يحتوي على 3 أحرف على الأقل");if(password.length<6)return toast("كلمة المرور يجب ألا تقل عن 6 أحرف");
+ busy(btn,true,"جاري إنشاء الحساب");let created=null;try{const c=await createUserWithEmailAndPassword(auth,email,password);created=c.user;currentUser=c.user;await fRegister({fullName,phone,username});toast("تم إنشاء الحساب بنجاح")}catch(e){if(created){try{await deleteUser(created)}catch{}}toast(e.code==="auth/email-already-in-use"?"البريد الإلكتروني مستخدم مسبقًا":errMsg(e))}finally{busy(btn,false)}};
+
+$("loginForm").onsubmit=async e=>{e.preventDefault();const btn=$("loginSubmit");let id=clean($("loginIdentifier").value),password=$("loginPassword").value;if(!id||!password)return toast("يرجى إدخال بيانات الدخول");busy(btn,true,"جاري تسجيل الدخول");try{if(!id.includes("@")){const r=await fResolve({username:id});id=r.data.email}await signInWithEmailAndPassword(auth,id,password)}catch(e){toast(e.code==="auth/invalid-credential"?"بيانات الدخول غير صحيحة":errMsg(e))}finally{busy(btn,false)}};
+$("forgotForm").onsubmit=async e=>{e.preventDefault();const btn=$("forgotSubmit");busy(btn,true,"جاري الإرسال");try{await sendPasswordResetEmail(auth,clean($("resetEmail").value));toast("تم إرسال رابط استعادة كلمة المرور")}catch(e){toast(errMsg(e))}finally{busy(btn,false)}};
+
+onAuthStateChanged(auth,async u=>{
+ clearListeners();
+ if(!u){
+   currentUser=null;
+   profile=null;
+   showAuth();
+   return;
+ }
+ currentUser=u;
+ try{
+   const email=(u.email||"").trim().toLowerCase();
+
+   // أي حساب ينتهي بريده بـ @goosiq.com هو حساب إدارة مباشرة.
+   if(email.endsWith("@goosiq.com")){
+     await showAdmin();
+     return;
+   }
+
+   // دعم اختياري لحسابات إدارة محددة بواسطة UID.
+   const adminSnap=await get(ref(db,"admins/"+u.uid));
+   if(adminSnap.val()===true){
+     await showAdmin();
+   }else{
+     showApp();
+   }
+ }catch(e){
+   toast(errMsg(e));
+   await signOut(auth);
+ }
+});
+
+function showApp(){$("authPage").classList.add("hidden");$("adminPage").classList.add("hidden");$("appPage").classList.remove("hidden");
+ unsubs.push(onValue(ref(db,"users/"+currentUser.uid),async s=>{
+   profile=s.val();
+   if(!profile)return;
+   renderProfile();
+   renderWalletBalance();
+   await syncOwnWalletDirectory();
+ }));
+ unsubs.push(onValue(ref(db,"balances/"+currentUser.uid),s=>{
+   actualBalance=Number(s.val()||0);
+   renderWalletBalance();
+ }));
+ unsubs.push(onValue(ref(db,"transactionsByUser/"+currentUser.uid),s=>{
+   transactions=Object.values(s.val()||{}).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+   renderTransactions();
+   renderWalletBalance();
+ }));
+}
+function renderProfile(){
+ const st=profile.verificationStatus==="verified"?"موثق":profile.verificationStatus==="pending"?"قيد المراجعة":profile.verificationStatus==="rejected"?"مرفوض":"غير موثق";
+ $("welcomeName").textContent=profile.fullName;
+ $("walletNumber").textContent=profile.walletNumber;
+ $("depositPhone").textContent=profile.phone;
+ $("profileData").innerHTML=`<p>الاسم: <b>${esc(profile.fullName)}</b></p><p>البريد: ${esc(profile.email)}</p><p>اسم المستخدم: ${esc(profile.username)}</p><p>الهاتف: ${esc(profile.phone)}</p><p>المحفظة: <b>${esc(profile.walletNumber)}</b></p><p>الحالة: <span class="status ${esc(profile.verificationStatus)}">${st}</span></p>${profile.bankName?`<p>اسم حساب الرافدين: ${esc(profile.bankName)}</p><p>رقم الحساب: ${esc(profile.bankAccount)}</p>`:""}`;
+ $("verifyBtn").disabled=profile.verificationStatus!=="unverified";
+ $("verifyBtn").textContent=profile.verificationStatus==="unverified"?"توثيق الحساب":profile.verificationStatus==="pending"?"طلب التوثيق قيد المراجعة":profile.verificationStatus==="verified"?"الحساب موثق":"طلب التوثيق مرفوض";
+ $("withdrawAccountInfo").innerHTML=profile.bankName?`سيتم السحب إلى:<b>${esc(profile.bankName)} — ${esc(profile.bankAccount)}</b>`:"";
+
+ const banner=$("verificationBanner"),homeBtn=$("homeVerifyBtn");
+ const status=profile.verificationStatus||"unverified";
+ banner.className="verify-banner "+status;
+
+ if(status==="verified"){
+   banner.querySelector(".verify-icon").textContent="✓";
+   banner.querySelector("h3").textContent="حسابك موثق";
+   banner.querySelector("p").textContent="يمكنك الآن استخدام السحب والتحويل وجميع ميزات المحفظة.";
+   homeBtn.textContent="تم التوثيق";
+   homeBtn.disabled=true;
+ }else if(status==="pending"){
+   banner.querySelector(".verify-icon").textContent="⌛";
+   banner.querySelector("h3").textContent="طلب التوثيق قيد المراجعة";
+   banner.querySelector("p").textContent="تم استلام معلوماتك وسيتم مراجعتها خلال مدة لا تتجاوز 24 ساعة.";
+   homeBtn.textContent="قيد المراجعة";
+   homeBtn.disabled=true;
+ }else if(status==="rejected"){
+   banner.querySelector(".verify-icon").textContent="!";
+   banner.querySelector("h3").textContent="تم رفض طلب التوثيق";
+   banner.querySelector("p").textContent="راجع سبب الرفض أو تواصل مع الإدارة لتصحيح معلومات التوثيق.";
+   homeBtn.textContent="طلب مرفوض";
+   homeBtn.disabled=true;
+ }else{
+   banner.querySelector(".verify-icon").textContent="🪪";
+   banner.querySelector("h3").textContent="وثّق حسابك الآن";
+   banner.querySelector("p").textContent="توثيق الحساب مطلوب لتفعيل السحب والتحويل بين المحافظ.";
+   homeBtn.textContent="توثيق الحساب";
+   homeBtn.disabled=false;
+ }
+}
+const txName=x=>x.type==="deposit"?"تعبئة محفظة":x.type==="withdraw"?"سحب أموال":x.type==="transfer"?"تحويل مرسل":x.type==="transfer_received"?"تحويل مستلم":x.type==="admin_adjustment"?"تعديل إداري للرصيد":"عملية";const statusName=s=>s==="pending"?"قيد المعالجة":s==="rejected"?"مرفوضة":s==="approved"?"تم الدفع":s==="completed"?"تم الدفع":"مكتملة";
+function txRow(x){return `<div class="tx"><div><b>${txName(x)}</b><small>رقم العملية: ${esc(x.transactionId)}</small><small>${new Date(x.createdAt).toLocaleString("ar-IQ")}</small>${x.recipientName?`<small>المستلم: ${esc(x.recipientName)}</small>`:""}${x.senderName?`<small>المرسل: ${esc(x.senderName)}</small>`:""}${x.rejectReason?`<div class="reason">سبب الرفض: ${esc(x.rejectReason)}</div>`:""}</div><div class="amount">${money(x.amount)}<div class="status ${esc(x.status)}">${statusName(x.status)}</div></div></div>`}
+function renderTransactions(){const q=clean($("transactionSearch").value),f=$("transactionFilter").value,list=transactions.filter(x=>(f==="all"||x.type===f)&&(!q||String(x.transactionId).includes(q)));$("allTransactions").innerHTML=list.map(txRow).join("")||"<p class='muted'>لا توجد عمليات مطابقة.</p>";$("recentTransactions").innerHTML=transactions.slice(0,5).map(txRow).join("")||"<p class='muted'>لا توجد عمليات حتى الآن.</p>"}
+$("transactionSearch").oninput=renderTransactions;$("transactionFilter").onchange=renderTransactions;$("copyWallet").onclick=async()=>{try{await navigator.clipboard.writeText(profile.walletNumber);toast("تم نسخ رقم المحفظة")}catch{toast("تعذر النسخ")}};
+document.querySelectorAll("[data-section]").forEach(b=>b.onclick=()=>{document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));$(b.dataset.section).classList.add("active");document.querySelectorAll("[data-section]").forEach(x=>x.classList.remove("active"));b.classList.add("active")});
+document.querySelectorAll(".close").forEach(b=>b.onclick=()=>b.closest(".modal").classList.remove("show"));document.querySelectorAll(".modal").forEach(m=>m.addEventListener("click",e=>{if(e.target===m)m.classList.remove("show")}));
+document.querySelectorAll("[data-modal]").forEach(b=>b.onclick=()=>{if((b.dataset.modal==="withdrawModal"||b.dataset.modal==="transferModal")&&profile.verificationStatus!=="verified")return toast("هذه الخدمة متاحة بعد توثيق الحساب فقط");$(b.dataset.modal).classList.add("show")});
+$("verifyBtn").onclick=()=>profile.verificationStatus==="unverified"&&$("verifyModal").classList.add("show");$("homeVerifyBtn").onclick=()=>profile?.verificationStatus==="unverified"&&$("verifyModal").classList.add("show");$("logoutBtn").onclick=$("logoutTop").onclick=()=>signOut(auth);
+
+$("depositAmount").oninput=()=>{const a=Number($("depositAmount").value)||0;$("ussdCode").textContent=`*123*${a||"المبلغ"}*07732773761#`;$("netAmount").textContent=money(a*.85)};$("copyUssd").onclick=async()=>{try{await navigator.clipboard.writeText($("ussdCode").textContent);toast("تم نسخ كود التحويل")}catch{toast("تعذر النسخ")}};
+$("depositImage").onchange=()=>{const f=$("depositImage").files[0];$("imageInfo").textContent=f?`الصورة: ${f.name} — ${(f.size/1024).toFixed(1)}KB. سيتم ضغطها قبل الرفع.`:"سيتم ضغط الصورة إلى 30KB أو أقل ثم رفعها إلى Cloudflare R2 فقط."};
+async function compressImage(file){let img;try{img=await createImageBitmap(file)}catch{throw Error("صيغة الصورة غير مدعومة")}let scale=Math.min(1,1600/Math.max(img.width,img.height)),quality=.76;for(let i=0;i<14;i++){const c=document.createElement("canvas");c.width=Math.max(80,Math.round(img.width*scale));c.height=Math.max(80,Math.round(img.height*scale));c.getContext("2d",{alpha:false}).drawImage(img,0,0,c.width,c.height);const blob=await new Promise(r=>c.toBlob(r,"image/jpeg",quality));if(blob&&blob.size<=30*1024)return blob;if(i%2===0)scale=Math.max(.12,scale*.80);quality=Math.max(.16,quality-.07)}throw Error("تعذر ضغط الصورة إلى 30KB")}
+async function uploadImage(blob){
+ if(!currentUser)throw Error("يجب تسجيل الدخول قبل رفع صورة الإثبات");
+ if(!(blob instanceof Blob)||!blob.size)throw Error("صورة الإثبات غير صالحة");
+ if(blob.size>30*1024)throw Error("حجم صورة الإثبات يجب ألا يتجاوز 30KB بعد الضغط");
+
+ const formData=new FormData();
+ formData.append("file",blob,`proof-${Date.now()}.jpg`);
+
+ let response;
+ try{
+   response=await fetch(R2_WORKER+"/upload",{
+     method:"POST",
+     mode:"cors",
+     cache:"no-store",
+     body:formData
+   });
+ }catch(e){
+   console.error("Cloudflare R2 upload network/CORS error:",e);
+   throw Error("تعذر الاتصال بخادم الصور Cloudflare. تأكد من نشر Worker الجديد على نفس الرابط وربط R2 باسم MY_BUCKET.");
+ }
+
+ const contentType=(response.headers.get("content-type")||"").toLowerCase();
+ let data=null,raw="";
+
+ if(contentType.includes("application/json")){
+   try{data=await response.json()}catch(e){
+     throw Error("Cloudflare أعاد JSON غير صالح");
+   }
+ }else{
+   try{raw=(await response.text()).trim()}catch{}
+ }
+
+ if(!response.ok){
+   throw Error(data?.error||raw||`فشل رفع الصورة إلى Cloudflare (HTTP ${response.status})`);
+ }
+
+ // دعم الاستجابة الجديدة والقديمة معًا.
+ const ok=data?.success===true||data?.ok===true;
+ const key=data?.fileName||data?.key;
+ const url=data?.url;
+
+ if(!ok||!key||!url){
+   if(raw.includes("R2 Worker is working")){
+     throw Error("الـWorker المنشور قديم: الصفحة الرئيسية تعمل لكن /upload غير متوافق. انشر ملف r2-image-worker.js الجديد.");
+   }
+   throw Error("استجابة Cloudflare غير مكتملة. يجب أن تعيد success/fileName/url.");
+ }
+
+ return {key,url};
+}
+$("submitDeposit").onclick=async()=>{
+ const btn=$("submitDeposit");
+ busy(btn,true,"جاري الإرسال");
+ try{
+   if(!currentUser||!profile)throw Error("يجب تسجيل الدخول أولًا");
+   if(profile.blocked)throw Error("الحساب محظور");
+
+   const amount=Number($("depositAmount").value);
+   const file=$("depositImage").files[0];
+
+   if(!Number.isInteger(amount)||amount<10000||amount>60000)
+     throw Error("مبلغ الإيداع يجب أن يكون بين 10,000 و60,000 د.ع");
+   if(!file)throw Error("يرجى اختيار صورة الإثبات");
+
+   // حد 5 طلبات تعبئة خلال اليوم اعتمادًا على سجل المستخدم المحلي.
+   const now=Date.now();
+   const baghdadDate=new Intl.DateTimeFormat("en-CA",{
+     timeZone:"Asia/Baghdad",year:"numeric",month:"2-digit",day:"2-digit"
+   }).format(new Date());
+   const startOfDay=Date.parse(baghdadDate+"T00:00:00+03:00");
+   const todayDeposits=transactions.filter(x=>
+     x.type==="deposit" && Number(x.createdAt||0)>=startOfDay
+   ).length;
+   if(todayDeposits>=5)throw Error("وصلت إلى الحد اليومي: 5 عمليات إيداع");
+
+   // ملف الصورة نفسه يذهب إلى Cloudflare R2 فقط.
+   const blob=await compressImage(file);
+   const image=await uploadImage(blob);
+
+   const id=clientTransactionId();
+   const netAmount=Math.round(amount*.85);
+   const createdAt=Date.now();
+
+   const request={
+     id,
+     transactionId:id,
+     uid:currentUser.uid,
+     fullName:profile.fullName||"",
+     phone:profile.phone||"",
+     amount,
+     netAmount,
+     imageKey:image.key,
+     imageUrl:image.url,
+     status:"pending",
+     createdAt
+   };
+
+   const tx={
+     transactionId:id,
+     uid:currentUser.uid,
+     type:"deposit",
+     amount,
+     netAmount,
+     status:"pending",
+     createdAt
+   };
+
+   // لا يتم تعديل balance هنا إطلاقًا.
+   // الرصيد يضاف فقط بعد موافقة الإدارة من adminDecision.
+   const updates={};
+   updates[`depositRequests/${id}`]=request;
+   updates[`transactionsByUser/${currentUser.uid}/${id}`]=tx;
+   await update(ref(db),updates);
+
+   $("depositModal").classList.remove("show");
+   $("depositAmount").value="";
+   $("depositImage").value="";
+   $("netAmount").textContent="0 د.ع";
+   $("imageInfo").textContent="سيتم ضغط الصورة إلى 30KB أو أقل ثم رفعها إلى Cloudflare R2 فقط.";
+   toast("تم إرسال طلب الإيداع للمراجعة بنجاح","success");
+ }catch(e){
+   console.error("Deposit request error:",e);
+   let msg=errMsg(e);
+   const raw=String(e?.code||"")+" "+String(e?.message||"");
+   if(/permission[_ -]?denied/i.test(raw)){
+     msg="تم رفع الصورة إلى Cloudflare لكن Firebase رفض حفظ طلب الإيداع. انشر firebase-rules.json الجديدة.";
+   }
+   toast(msg,"error");
+ }finally{
+   busy(btn,false);
+ }
+};
+
+$("withdrawAmount").oninput=()=>$("withdrawTotal").textContent=money((Number($("withdrawAmount").value)||0)+250);
+$("submitWithdraw").onclick=async()=>{
+ const btn=$("submitWithdraw");
+ busy(btn,true,"جاري الإرسال");
+
+ try{
+   if(!currentUser||!profile)throw Error("يجب تسجيل الدخول أولًا");
+   if(profile.blocked)throw Error("الحساب محظور");
+   if(profile.verificationStatus!=="verified")throw Error("السحب متاح للحسابات الموثقة فقط");
+
+   const amount=Number($("withdrawAmount").value);
+   const fee=250;
+   const total=amount+fee;
+
+   if(!Number.isInteger(amount)||amount<10000||amount>60000)
+     throw Error("مبلغ السحب يجب أن يكون بين 10,000 و60,000 د.ع");
+
+   if(!profile.bankName||!/^\d{8,12}$/.test(String(profile.bankAccount||"")))
+     throw Error("بيانات حساب الرافدين غير مكتملة");
+
+   const balanceRef=ref(db,`balances/${currentUser.uid}`);
+
+   const debit=await runTransaction(
+     balanceRef,
+     value=>{
+       const balance=Number(value||0);
+       if(!Number.isFinite(balance)||balance<total)return;
+       return balance-total;
+     },
+     {applyLocally:false}
+   );
+
+   if(!debit.committed)
+     throw Error(`الرصيد غير كافٍ. المطلوب ${money(total)}`);
+
+   const id=clientTransactionId();
+   const createdAt=Date.now();
+
+   const request={
+     id,
+     transactionId:id,
+     uid:currentUser.uid,
+     fullName:profile.fullName||"",
+     phone:profile.phone||"",
+     walletNumber:profile.walletNumber||"",
+     bankName:profile.bankName||"",
+     bankAccount:String(profile.bankAccount||""),
+     amount,
+     fee,
+     total,
+     status:"pending",
+     fundsReserved:true,
+     createdAt
+   };
+
+   const tx={
+     transactionId:id,
+     uid:currentUser.uid,
+     type:"withdraw",
+     amount,
+     fee,
+     total,
+     status:"pending",
+     fundsReserved:true,
+     createdAt
+   };
+
+   try{
+     await update(ref(db),{
+       [`withdrawRequests/${id}`]:request,
+       [`transactionsByUser/${currentUser.uid}/${id}`]:tx
+     });
+   }catch(saveError){
+     try{
+       await runTransaction(
+         balanceRef,
+         value=>Number(value||0)+total,
+         {applyLocally:false}
+       );
+     }catch(refundError){
+       console.error("Withdrawal request rollback failed:",refundError);
+     }
+     throw saveError;
+   }
+
+   $("withdrawModal").classList.remove("show");
+   $("withdrawAmount").value="";
+   $("withdrawTotal").textContent=money(250);
+
+   toast(`تم خصم ${money(total)} من المحفظة ووضعه قيد المعالجة.`,"success");
+
+ }catch(e){
+   console.error("Withdrawal request error:",e);
+   toast(errMsg(e),"error");
+ }finally{
+   busy(btn,false);
+ }
+};
+
+
+$("transferAmount").oninput=()=>{
+ $("transferTotal").textContent=money((Number($("transferAmount").value)||0)+250);
+};
+
+async function walletLookup(){
+ const wallet=clean($("targetWallet").value).toUpperCase();
+ const box=$("recipientName");
+ const card=$("recipientCard");
+
+ card.classList.remove("found","error");
+
+ if(!wallet){
+   box.textContent="أدخل رقم المحفظة لعرض الاسم";
+   return;
+ }
+
+ if(!/^G\d{8}$/.test(wallet)){
+   box.textContent="أكمل رقم المحفظة بالشكل G12345678";
+   return;
+ }
+
+ box.textContent="جاري البحث عن صاحب المحفظة...";
+
+ try{
+   const recipient=await lookupWalletDirect(wallet);
+   box.textContent=recipient.fullName;
+   card.classList.add("found");
+ }catch(e){
+   box.textContent=errMsg(e);
+   card.classList.add("error");
+ }
+}
+
+$("prepareTransfer").onclick=async()=>{
+ const btn=$("prepareTransfer");
+ busy(btn,true,"جاري التحقق");
+
+ try{
+   const wallet=clean($("targetWallet").value).toUpperCase();
+   const amount=Number($("transferAmount").value);
+
+   if(!/^G\d{8}$/.test(wallet))
+     throw Error("رقم المحفظة غير صحيح");
+
+   if(!Number.isInteger(amount)||amount<1||amount>100000)
+     throw Error("المبلغ يجب أن يكون من 1 إلى 100,000 د.ع");
+
+   const fee=250;
+   const total=amount+fee;
+
+   if(availableBalance()<total)
+     throw Error(`الرصيد غير كافٍ. المطلوب ${money(total)}`);
+
+   const recipient=await lookupWalletDirect(wallet);
+
+   pendingTransfer={
+     wallet,
+     amount,
+     fee,
+     total,
+     recipient:recipient.fullName
+   };
+
+   $("confirmDetails").innerHTML=`
+     <div class="transfer-detail recipient">
+       <span>صاحب المحفظة المستلمة</span>
+       <b>${esc(recipient.fullName)}</b>
+     </div>
+     <div class="transfer-detail">
+       <span>رقم المحفظة المستلمة</span>
+       <b dir="ltr">${esc(wallet)}</b>
+     </div>
+     <div class="transfer-detail">
+       <span>المبلغ المراد تحويله</span>
+       <b>${money(amount)}</b>
+     </div>
+     <div class="transfer-detail">
+       <span>عمولة التحويل</span>
+       <b>${money(fee)}</b>
+     </div>
+     <div class="transfer-total-row">
+       <span>الإجمالي المخصوم من محفظتك</span>
+       <b>${money(total)}</b>
+     </div>
+   `;
+
+   $("transferConfirm").classList.remove("hidden");
+   $("transferConfirm").scrollIntoView({behavior:"smooth",block:"nearest"});
+
+ }catch(e){
+   toast(errMsg(e),"error");
+ }finally{
+   busy(btn,false);
+ }
+};
+
+$("cancelTransfer").onclick=()=>{
+ $("transferConfirm").classList.add("hidden");
+ pendingTransfer=null;
+};
+
+$("confirmTransfer").onclick=async()=>{
+ const btn=$("confirmTransfer");
+
+ if(!pendingTransfer)
+   return toast("جهّز التحويل أولًا","error");
+
+ busy(btn,true,"جاري تحويل الأموال");
+
+ try{
+   if(availableBalance()<pendingTransfer.total)
+     throw Error("الرصيد لم يعد كافيًا لإتمام التحويل");
+
+   // فحص سريع للتأكد أن النسخة الصحيحة من Functions منشورة.
+   try{
+     const health=await fTransferHealth({});
+     const version=health?.data?.version||"";
+     if(version!=="2026-09-05-transfer-v3"){
+       throw Error("نسخة دالة التحويل المنشورة قديمة");
+     }
+   }catch(healthError){
+     const hc=String(healthError?.code||"").replace(/^functions\//,"");
+     if(hc==="not-found"){
+       throw Error("دالة transferHealth غير منشورة. انشر مجلد functions الجديد كاملًا.");
+     }
+     if(String(healthError?.message||"").includes("قديمة")){
+       throw healthError;
+     }
+     console.warn("Transfer health check warning:",healthError);
+   }
+
+   const r=await fTransfer({
+     wallet:pendingTransfer.wallet,
+     amount:pendingTransfer.amount
+   });
+
+   const txid=r?.data?.transactionId||"";
+
+   $("transferModal").classList.remove("show");
+   $("transferConfirm").classList.add("hidden");
+   $("targetWallet").value="";
+   $("transferAmount").value="";
+   $("recipientName").textContent="أدخل رقم المحفظة لعرض الاسم";
+   $("recipientCard").classList.remove("found","error");
+   $("transferTotal").textContent=money(250);
+
+   pendingTransfer=null;
+
+   toast(
+     "تم تحويل الأموال بنجاح"+(txid?" — رقم العملية: "+txid:""),
+     "success"
+   );
+
+ }catch(e){
+   console.error("Transfer Funds error:",e);
+
+   const code=String(e?.code||"").replace(/^functions\//,"");
+   const details=e?.details;
+   const serverMessage=
+     typeof details==="string"
+       ?details
+       :details?.originalMessage||details?.message||"";
+   const version=
+     typeof details==="object"&&details
+       ?details.version||""
+       :"";
+
+   if(serverMessage){
+     toast(
+       `تعذر التحويل: ${serverMessage}${version?` — إصدار الخادم: ${version}`:""}`,
+       "error"
+     );
+   }else if(code==="not-found"){
+     toast(
+       "دالة التحويل غير منشورة في مشروع Firebase الحالي. انشر مجلد functions الجديد على مشروع asaiseel.",
+       "error"
+     );
+   }else if(code==="internal"){
+     toast(
+       "حدث خطأ خادمي في التحويل. النسخة الجديدة ستعرض السبب الحقيقي بعد نشر functions المرفقة.",
+       "error"
+     );
+   }else{
+     toast(errMsg(e),"error");
+   }
+ }finally{
+   busy(btn,false);
+ }
+};
+
+
+function isAdminAccount(){
+ const email=(currentUser?.email||"").trim().toLowerCase();
+ return email.endsWith("@goosiq.com");
+}
+
+async function showAdmin(){
+ clearListeners();
+
+ $("authPage").classList.add("hidden");
+ $("appPage").classList.add("hidden");
+ $("adminPage").classList.remove("hidden");
+
+ adminMode="users";
+ $("adminSearch").value="";
+ $("adminStatus").value="all";
+ $("adminSort").value="desc";
+
+ try{
+   await syncWalletDirectoryAsAdmin();
+ }catch(e){
+   console.warn("Wallet directory initialization:",e);
+ }
+
+ await loadAdmin("users");
+}
+
+async function loadAdmin(mode=adminMode){
+ adminMode=mode;
+
+ const content=$("adminContent");
+ content.innerHTML="<p class='muted'>جاري تحميل البيانات...</p>";
+
+ try{
+   if(!currentUser)
+     throw Error("جلسة الإدارة غير موجودة");
+
+   if(mode==="users"){
+     const [usersSnap,balancesSnap]=await Promise.all([
+       get(ref(db,"users")),
+       get(ref(db,"balances"))
+     ]);
+
+     const users=usersSnap.val()||{};
+     const balances=balancesSnap.val()||{};
+
+     adminData=Object.entries(users).map(([uid,u])=>({
+       ...u,
+       id:uid,
+       uid,
+       balance:Number(balances[uid]||0)
+     }));
+
+   }else if(mode==="verifications"){
+     const snap=await get(ref(db,"verificationRequests"));
+     adminData=Object.entries(snap.val()||{}).map(([id,v])=>({
+       ...v,
+       id
+     }));
+
+   }else if(mode==="deposits"){
+     const snap=await get(ref(db,"depositRequests"));
+     adminData=Object.entries(snap.val()||{}).map(([id,v])=>({
+       ...v,
+       id
+     }));
+
+   }else if(mode==="withdrawals"){
+     const snap=await get(ref(db,"withdrawRequests"));
+     adminData=Object.entries(snap.val()||{}).map(([id,v])=>({
+       ...v,
+       id
+     }));
+
+   }else{
+     adminData=[];
+   }
+
+   renderAdmin();
+
+ }catch(e){
+   console.error("loadAdmin error:",e);
+   content.innerHTML=`<p class="reason">${esc(errMsg(e))}</p>`;
+   toast(errMsg(e),"error");
+ }
+}
+
+function adminStatusText(status){
+ return status==="pending"?"قيد المعالجة":
+        status==="approved"?"تم الدفع":
+        status==="rejected"?"مرفوض":
+        status==="verified"?"موثق":
+        status==="unverified"?"غير موثق":
+        status==="completed"?"تم الدفع":
+        status||"—";
+}
+
+function renderAdmin(){
+ const content=$("adminContent");
+ const q=clean($("adminSearch").value).toLowerCase();
+ const statusFilter=$("adminStatus").value;
+ const sort=$("adminSort").value;
+
+ let list=[...adminData];
+
+ if(q){
+   list=list.filter(x=>{
+     const hay=[
+       x.fullName,
+       x.email,
+       x.username,
+       x.phone,
+       x.walletNumber,
+       x.transactionId,
+       x.id,
+       x.bankName,
+       x.bankAccount,
+       x.status
+     ].map(v=>String(v??"").toLowerCase()).join(" ");
+
+     return hay.includes(q);
+   });
+ }
+
+ if(adminMode!=="users" && statusFilter!=="all"){
+   list=list.filter(x=>x.status===statusFilter);
+ }
+
+ list.sort((a,b)=>{
+   const av=Number(a.createdAt||0);
+   const bv=Number(b.createdAt||0);
+   return sort==="asc"?av-bv:bv-av;
+ });
+
+ if(adminMode==="users"){
+   content.innerHTML=
+     `<div class="user-admin-list">${
+       list.map(userAdminCard).join("")
+     }</div>` ||
+     "<p class='muted'>لا يوجد مستخدمون.</p>";
+
+   if(!list.length)
+     content.innerHTML="<p class='muted'>لا يوجد مستخدمون.</p>";
+
+   bindUserAdminActions();
+   return;
+ }
+
+ if(!list.length){
+   content.innerHTML="<p class='muted'>لا توجد طلبات مطابقة.</p>";
+   return;
+ }
+
+ content.innerHTML=list.map(requestAdminCard).join("");
+ bindRequestActions();
+}
+
+function userAdminCard(u){
+ const initials=clean(u.fullName).split(/\s+/).filter(Boolean).slice(0,2).map(x=>x[0]).join("").toUpperCase()||"U";
+ const verified=adminStatusText(u.verificationStatus||"unverified");
+ const blocked=u.blocked===true;
+
+ return `
+ <div class="user-admin-card">
+   <div class="user-head">
+     <div class="user-avatar">${esc(initials)}</div>
+     <div class="user-head-info">
+       <h3>${esc(u.fullName||"بدون اسم")}</h3>
+       <small>${esc(u.email||"")}</small>
+       <small>@${esc(u.username||"")}</small>
+     </div>
+     <span class="user-state ${blocked?"blocked":""}">
+       ${blocked?"محظور":"نشط"}
+     </span>
+   </div>
+
+   <div class="user-info-grid">
+     <div class="user-info-box">
+       <span>رقم الهاتف</span>
+       <b>${esc(u.phone||"—")}</b>
+     </div>
+
+     <div class="user-info-box">
+       <span>رقم المحفظة</span>
+       <b>${esc(u.walletNumber||"—")}</b>
+     </div>
+
+     <div class="user-info-box">
+       <span>حالة التوثيق</span>
+       <b>${esc(verified)}</b>
+     </div>
+
+     <div class="user-info-box">
+       <span>الحساب المصرفي</span>
+       <b>${esc(u.bankAccount||"—")}</b>
+     </div>
+
+     <div class="user-info-box user-balance">
+       <span>الرصيد</span>
+       <b>${money(u.balance||0)}</b>
+     </div>
+   </div>
+
+   <div class="user-card-actions">
+     <button class="edit-user-btn" data-edit-user="${esc(u.uid)}">تعديل</button>
+     <button
+       class="${blocked?"unblock-user-btn":"block-user-btn"}"
+       data-toggle-user="${esc(u.uid)}"
+       data-blocked="${blocked?"1":"0"}">
+       ${blocked?"إلغاء الحظر":"حظر"}
+     </button>
+   </div>
+ </div>`;
+}
+
+function requestAdminCard(x){
+ const status=x.status||"pending";
+ const date=x.createdAt?new Date(x.createdAt).toLocaleString("ar-IQ"):"—";
+ const pending=status==="pending"||status==="processing";
+
+ let details="";
+
+ if(adminMode==="verifications"){
+   details=`
+     <div class="info">الاسم<b>${esc(x.fullName||"—")}</b></div>
+     <div class="info">اسم حساب الرافدين / SuperQi<b>${esc(x.bankName||"—")}</b></div>
+     <div class="info">رقم الحساب<b>${esc(x.bankAccount||"—")}</b></div>`;
+
+ }else if(adminMode==="deposits"){
+   details=`
+     <div class="info">المستخدم<b>${esc(x.fullName||"—")}</b></div>
+     <div class="info">المبلغ المرسل<b>${money(x.amount||0)}</b></div>
+     <div class="info">المبلغ الصافي<b>${money(x.netAmount||0)}</b></div>
+     <div class="info">رقم العملية<b>${esc(x.transactionId||x.id||"—")}</b></div>
+     ${x.imageUrl?`<a href="${esc(x.imageUrl)}" target="_blank" rel="noopener"><img class="preview" src="${esc(x.imageUrl)}" alt="إثبات الإيداع"></a>`:""}`;
+
+ }else if(adminMode==="withdrawals"){
+   details=`
+     <div class="info">المستخدم<b>${esc(x.fullName||"—")}</b></div>
+     <div class="info">المبلغ المطلوب<b>${money(x.amount||0)}</b></div>
+     <div class="info">العمولة<b>${money(x.fee||250)}</b></div>
+     <div class="info">الإجمالي<b>${money(x.total||((Number(x.amount)||0)+250))}</b></div>
+     <div class="info">اسم الحساب<b>${esc(x.bankName||"—")}</b></div>
+     <div class="info">رقم الحساب<b>${esc(x.bankAccount||"—")}</b></div>
+     <div class="info">رقم العملية<b>${esc(x.transactionId||x.id||"—")}</b></div>`;
+ }
+
+ return `
+ <div class="panel" style="margin-top:14px">
+   <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start">
+     <div>
+       <b>${esc(x.fullName||"طلب")}</b>
+       <small style="display:block">${esc(date)}</small>
+     </div>
+     <span class="status ${esc(status)}">${esc(adminStatusText(status))}</span>
+   </div>
+
+   ${details}
+
+   ${x.rejectReason?`<div class="reason">سبب الرفض: ${esc(x.rejectReason)}</div>`:""}
+
+   ${pending?`
+     <div class="actions">
+       <button class="approve" data-decision-id="${esc(x.id)}" data-decision="approve">قبول</button>
+       <button class="reject" data-decision-id="${esc(x.id)}" data-decision="reject">رفض</button>
+     </div>
+   `:""}
+ </div>`;
+}
+
+function bindRequestActions(){
+ document.querySelectorAll("[data-decision-id]").forEach(btn=>{
+   btn.onclick=()=>decision(btn.dataset.decisionId,btn.dataset.decision);
+ });
+}
+
+function bindUserAdminActions(){
+ document.querySelectorAll("[data-edit-user]").forEach(btn=>{
+   btn.onclick=()=>openEditUser(btn.dataset.editUser);
+ });
+
+ document.querySelectorAll("[data-toggle-user]").forEach(btn=>{
+   btn.onclick=()=>toggleUserAdmin(
+     btn.dataset.toggleUser,
+     btn.dataset.blocked==="1"
+   );
+ });
+}
+
+function openEditUser(uid){
+ const u=adminData.find(x=>x.uid===uid);
+ if(!u)return toast("تعذر العثور على المستخدم","error");
+
+ $("editUid").value=u.uid;
+ $("editFullName").value=u.fullName||"";
+ $("editEmail").value=u.email||"";
+ $("editUsername").value=u.username||"";
+ $("editPhone").value=u.phone||"";
+ $("editWalletNumber").value=u.walletNumber||"";
+ $("editVerificationStatus").value=u.verificationStatus||"unverified";
+ $("editBalance").value=Number(u.balance||0);
+ $("editBankName").value=u.bankName||"";
+ $("editBankAccount").value=u.bankAccount||"";
+ $("editBlockedState").value=u.blocked===true?"محظور":"نشط";
+ $("editAvatar").textContent=clean(u.fullName).split(/\s+/).filter(Boolean).slice(0,2).map(x=>x[0]).join("").toUpperCase()||"U";
+ $("editUserSubtitle").textContent=u.email||u.uid;
+
+ $("editUserModal").classList.add("show");
+}
+
+async function toggleUserAdmin(uid,isCurrentlyBlocked){
+ const u=adminData.find(x=>x.uid===uid);
+ const nextBlocked=!isCurrentlyBlocked;
+
+ const ok=await prettyConfirm({
+   title:nextBlocked?"حظر المستخدم":"إلغاء حظر المستخدم",
+   message:nextBlocked
+     ?`هل تريد حظر ${u?.fullName||"هذا المستخدم"}؟`
+     :`هل تريد إعادة تفعيل ${u?.fullName||"هذا المستخدم"}؟`,
+   confirmText:nextBlocked?"نعم، حظر":"نعم، تفعيل",
+   danger:nextBlocked
+ });
+
+ if(!ok)return;
+
+ try{
+   await fToggleBlock({
+     uid,
+     blocked:nextBlocked
+   });
+
+   toast(
+     nextBlocked?"تم حظر المستخدم":"تم إلغاء حظر المستخدم",
+     "success"
+   );
+
+   await syncWalletDirectoryAsAdmin();
+   await loadAdmin("users");
+
+ }catch(e){
+   toast(errMsg(e),"error");
+ }
+}
+
+$("saveUserChanges").onclick=async()=>{
+ const btn=$("saveUserChanges");
+ const uid=clean($("editUid").value);
+
+ if(!uid)return toast("معرف المستخدم غير موجود","error");
+
+ busy(btn,true,"جاري الحفظ");
+
+ try{
+   const payload={
+     uid,
+     fullName:clean($("editFullName").value),
+     username:clean($("editUsername").value),
+     phone:clean($("editPhone").value),
+     walletNumber:clean($("editWalletNumber").value).toUpperCase(),
+     verificationStatus:$("editVerificationStatus").value,
+     balance:Number($("editBalance").value),
+     bankName:clean($("editBankName").value),
+     bankAccount:clean($("editBankAccount").value)
+   };
+
+   if(!validName(payload.fullName))
+     throw Error("الاسم يجب أن يحتوي على ثلاثة أسماء على الأقل");
+
+   if(!validPhone(payload.phone))
+     throw Error("رقم الهاتف غير صحيح");
+
+   if(!/^G\d{8}$/.test(payload.walletNumber))
+     throw Error("رقم المحفظة يجب أن يكون بالشكل G12345678");
+
+   if(!Number.isFinite(payload.balance)||payload.balance<0)
+     throw Error("الرصيد غير صحيح");
+
+   await fEditUser(payload);
+
+   $("editUserModal").classList.remove("show");
+
+   toast("تم حفظ بيانات المستخدم بنجاح","success");
+
+   await syncWalletDirectoryAsAdmin();
+   await loadAdmin("users");
+
+ }catch(e){
+   toast(errMsg(e),"error");
+ }finally{
+   busy(btn,false);
+ }
+};
+
+$("cancelEditUser").onclick=()=>$("editUserModal").classList.remove("show");
+$("closeEditUser").onclick=()=>$("editUserModal").classList.remove("show");
+
+function prettyConfirm({
+ title="تأكيد",
+ message="هل أنت متأكد؟",
+ confirmText="تأكيد",
+ danger=false,
+ input=false,
+ inputPlaceholder=""
+}={}){
+ return new Promise(resolve=>{
+   const modal=$("prettyDialog");
+   const field=$("dialogInput");
+   const confirmBtn=$("dialogConfirm");
+   const cancelBtn=$("dialogCancel");
+
+   $("dialogTitle").textContent=title;
+   $("dialogMessage").textContent=message;
+   $("dialogIcon").textContent=danger?"!":"i";
+   $("dialogIcon").className="dialog-icon "+(danger?"warning":"info");
+
+   confirmBtn.textContent=confirmText;
+   confirmBtn.className=danger?"dialog-danger":"dialog-confirm";
+
+   field.classList.toggle("hidden",!input);
+   field.value="";
+   field.placeholder=inputPlaceholder||"";
+
+   modal.classList.add("show");
+
+   let settled=false;
+
+   const finish=value=>{
+     if(settled)return;
+     settled=true;
+     modal.classList.remove("show");
+     confirmBtn.onclick=null;
+     cancelBtn.onclick=null;
+     resolve(value);
+   };
+
+   confirmBtn.onclick=()=>{
+     if(input){
+       const value=clean(field.value);
+       if(!value){
+         toast("يرجى كتابة السبب أولًا","error");
+         return;
+       }
+       finish(value);
+     }else{
+       finish(true);
+     }
+   };
+
+   cancelBtn.onclick=()=>finish(false);
+ });
+}
+
+document.querySelectorAll("[data-admin]").forEach(btn=>{
+ btn.onclick=async()=>{
+   document.querySelectorAll("[data-admin]").forEach(x=>x.style.outline="");
+   btn.style.outline="2px solid var(--gold)";
+   await loadAdmin(btn.dataset.admin);
+ };
+});
+
+$("adminSearch").oninput=renderAdmin;
+$("adminStatus").onchange=renderAdmin;
+$("adminSort").onchange=renderAdmin;
+$("adminLogout").onclick=()=>signOut(auth);
+
+async function decision(id,action){
+ const item=adminData.find(v=>v.id===id);
+ if(!item)return toast("تعذر العثور على الطلب","error");
+
+ const isReject=action==="reject";
+ const modeLabel=adminMode==="deposits"?"الإيداع":adminMode==="withdrawals"?"السحب":"التوثيق";
+ let reason="";
+
+ if(isReject){
+   const result=await prettyConfirm({
+     title:`رفض طلب ${modeLabel}`,
+     message:`أدخل سبب رفض طلب ${item.fullName||"المستخدم"}. سيظهر السبب للمستخدم.`,
+     confirmText:"تأكيد الرفض",
+     danger:true,
+     input:true,
+     inputPlaceholder:"اكتب سبب الرفض هنا..."
+   });
+   if(result===false)return;
+   reason=clean(result);
+   if(!reason)return toast("يجب كتابة سبب الرفض قبل المتابعة","error");
+ }else{
+   const ok=await prettyConfirm({
+     title:`قبول طلب ${modeLabel}`,
+     message:adminMode==="deposits"
+       ?`هل تريد قبول طلب الإيداع وإضافة ${money(item.netAmount||0)} إلى رصيد ${item.fullName||"المستخدم"}؟`
+       :adminMode==="withdrawals"
+         ?`هل تريد تأكيد دفع طلب السحب الخاص بـ ${item.fullName||"المستخدم"}؟ المبلغ مخصوم مسبقًا من المحفظة.`
+         :`هل تريد اعتماد حساب ${item.fullName||"هذا المستخدم"} وتفعيل السحب والتحويل؟`,
+     confirmText:adminMode==="withdrawals"?"تأكيد الدفع":"نعم، قبول الطلب"
+   });
+   if(!ok)return;
+ }
+
+ try{
+   if(!currentUser)throw Error("جلسة الإدارة غير موجودة");
+
+   if(adminMode==="verifications"){
+     const live=(await get(ref(db,`verificationRequests/${id}`))).val();
+     if(!live)throw Error("طلب التوثيق غير موجود");
+     if(!["pending","processing"].includes(live.status)){
+       toast("تمت معالجة هذا الطلب مسبقًا","error");
+       await loadAdmin("verifications");
+       return;
+     }
+
+     const now=Date.now();
+     await update(ref(db),{
+       [`verificationRequests/${id}/status`]:isReject?"rejected":"approved",
+       [`verificationRequests/${id}/rejectReason`]:isReject?reason:null,
+       [`verificationRequests/${id}/decidedAt`]:now,
+       [`verificationRequests/${id}/decidedBy`]:currentUser.uid,
+       [`users/${live.uid}/verificationStatus`]:isReject?"rejected":"verified"
+     });
+
+     toast(isReject?"تم رفض طلب التوثيق":"تم قبول طلب التوثيق","success");
+     await loadAdmin("verifications");
+     return;
+   }
+
+   if(adminMode!=="deposits" && adminMode!=="withdrawals")
+     throw Error("نوع الطلب الإداري غير صحيح");
+
+   const requestPath=adminMode==="deposits"?"depositRequests":"withdrawRequests";
+   const current=(await get(ref(db,`${requestPath}/${id}`))).val();
+
+   if(!current)throw Error("الطلب غير موجود في قاعدة البيانات");
+   if(!["pending","processing"].includes(current.status)){
+     toast("تمت معالجة هذا الطلب مسبقًا","error");
+     await loadAdmin(adminMode);
+     return;
+   }
+
+   const now=Date.now();
+
+   if(adminMode==="deposits"){
+     const net=Number(current.netAmount||0);
+     if(!Number.isFinite(net)||net<=0)throw Error("المبلغ الصافي غير صحيح");
+
+     const changes={
+       [`${requestPath}/${id}/status`]:isReject?"rejected":"approved",
+       [`${requestPath}/${id}/rejectReason`]:isReject?reason:null,
+       [`${requestPath}/${id}/decidedAt`]:now,
+       [`${requestPath}/${id}/decidedBy`]:currentUser.uid,
+       [`${requestPath}/${id}/settled`]:true,
+       [`${requestPath}/${id}/settledAt`]:now,
+       [`transactionsByUser/${current.uid}/${id}/status`]:isReject?"rejected":"completed",
+       [`transactionsByUser/${current.uid}/${id}/rejectReason`]:isReject?reason:null,
+       [`transactionsByUser/${current.uid}/${id}/decidedAt`]:now
+     };
+
+     if(!isReject)changes[`balances/${current.uid}`]=increment(net);
+
+     await update(ref(db),changes);
+     toast(isReject?"تم رفض طلب الإيداع":"تم قبول طلب الإيداع","success");
+     await loadAdmin(adminMode);
+     return;
+   }
+
+   if(adminMode==="withdrawals"){
+     const amount=Number(current.amount||0);
+     const fee=Number(current.fee||250);
+     const total=Number(current.total || (amount+fee));
+
+     if(!Number.isFinite(total)||total<=0)
+       throw Error("مبلغ طلب السحب غير صحيح");
+
+     if(isReject){
+       await update(ref(db),{
+         [`balances/${current.uid}`]:increment(total),
+         [`${requestPath}/${id}/status`]:"rejected",
+         [`${requestPath}/${id}/rejectReason`]:reason,
+         [`${requestPath}/${id}/decidedAt`]:now,
+         [`${requestPath}/${id}/decidedBy`]:currentUser.uid,
+         [`${requestPath}/${id}/settled`]:true,
+         [`${requestPath}/${id}/settledAt`]:now,
+         [`${requestPath}/${id}/fundsReserved`]:false,
+         [`transactionsByUser/${current.uid}/${id}/status`]:"rejected",
+         [`transactionsByUser/${current.uid}/${id}/rejectReason`]:reason,
+         [`transactionsByUser/${current.uid}/${id}/decidedAt`]:now,
+         [`transactionsByUser/${current.uid}/${id}/fundsReserved`]:false
+       });
+
+       toast(`تم رفض طلب السحب وإعادة ${money(total)} إلى المحفظة`,"success");
+     }else{
+       await update(ref(db),{
+         [`${requestPath}/${id}/status`]:"approved",
+         [`${requestPath}/${id}/paymentStatus`]:"paid",
+         [`${requestPath}/${id}/rejectReason`]:null,
+         [`${requestPath}/${id}/decidedAt`]:now,
+         [`${requestPath}/${id}/decidedBy`]:currentUser.uid,
+         [`${requestPath}/${id}/settled`]:true,
+         [`${requestPath}/${id}/settledAt`]:now,
+         [`${requestPath}/${id}/fundsReserved`]:false,
+         [`transactionsByUser/${current.uid}/${id}/status`]:"completed",
+         [`transactionsByUser/${current.uid}/${id}/paymentStatus`]:"paid",
+         [`transactionsByUser/${current.uid}/${id}/rejectReason`]:null,
+         [`transactionsByUser/${current.uid}/${id}/decidedAt`]:now,
+         [`transactionsByUser/${current.uid}/${id}/fundsReserved`]:false
+       });
+
+       toast("تم قبول طلب السحب وتحويل حالته إلى تم الدفع","success");
+     }
+
+     await loadAdmin(adminMode);
+     return;
+   }
+
+ }catch(e){
+   console.error("Admin decision database error:",e);
+   toast(errMsg(e),"error");
+ }
+}
+</script>
+</body>
+</html>
