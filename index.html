@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GOOSIQ WALLET</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="auth-page">
+<div class="auth-shell">
+  <section class="brand-panel">
+    <div class="logo-mark">G</div>
+    <h1>GOOSIQ <span>WALLET</span></h1>
+    <p>محفظتك الرقمية بتجربة عصرية وسهلة.</p>
+  </section>
+  <section class="auth-card">
+    <div id="loginView">
+      <h2>مرحبًا بعودتك</h2><p class="muted">سجّل الدخول إلى محفظتك</p>
+      <form id="loginForm">
+        <label>البريد الإلكتروني أو اسم المستخدم</label>
+        <input id="loginIdentifier" required>
+        <label>كلمة المرور</label>
+        <input id="loginPassword" type="password" required>
+        <button class="primary" type="submit">تسجيل الدخول</button>
+      </form>
+      <button class="link-btn" id="forgotBtn">نسيت كلمة المرور؟</button>
+      <p>ليس لديك حساب؟ <button class="text-action" data-view="register">إنشاء حساب</button></p>
+    </div>
+
+    <div id="registerView" hidden>
+      <h2>إنشاء حساب جديد</h2>
+      <form id="registerForm">
+        <label>الاسم الثلاثي</label><input id="fullName" required placeholder="مثال: محمد أحمد كريم">
+        <label>البريد الإلكتروني</label><input id="email" type="email" required>
+        <label>رقم الهاتف</label><input id="phone" inputmode="numeric" maxlength="11" placeholder="077xxxxxxxx">
+        <small>رقم الهاتف هذا هو الذي سوف يستخدم لتعبئة المحفظة فقط ولا يمكن تغييره لاحقًا.</small>
+        <label>اسم المستخدم</label><input id="username" required>
+        <label>كلمة المرور</label><input id="password" type="password" minlength="6" required>
+        <button class="primary" type="submit">إنشاء الحساب</button>
+      </form>
+      <p>لديك حساب؟ <button class="text-action" data-view="login">تسجيل الدخول</button></p>
+    </div>
+
+    <div id="forgotView" hidden>
+      <h2>إعادة تعيين كلمة المرور</h2>
+      <form id="forgotForm"><label>البريد الإلكتروني</label><input id="resetEmail" type="email" required><button class="primary">إرسال الرابط</button></form>
+      <button class="text-action" data-view="login">رجوع</button>
+    </div>
+    <div id="toast" class="toast"></div>
+  </section>
+</div>
+<script type="module" src="js/auth.js"></script>
+</body></html>

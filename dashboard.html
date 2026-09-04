@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GOOSIQ WALLET</title><link rel="stylesheet" href="css/style.css"></head>
+<body class="app-page">
+<header class="topbar"><div class="mini-logo">G</div><div><b>GOOSIQ WALLET</b><small id="welcomeName"></small></div><button id="logoutTop" class="icon-btn">↪</button></header>
+<main class="app-main">
+<section id="homeSection" class="section active">
+  <div class="balance-card"><span>الرصيد الحالي</span><h1 id="balance">0 د.ع</h1><div class="wallet-row"><span id="walletNumber">G--------</span><button id="copyWallet">نسخ</button></div></div>
+  <div class="quick-grid">
+    <button class="quick deposit" data-open="depositModal"><span>＋</span>تعبئة المحفظة</button>
+    <button class="quick withdraw" data-open="withdrawModal"><span>↓</span>سحب</button>
+    <button class="quick transfer" data-open="transferModal"><span>⇄</span>تحويل</button>
+  </div>
+  <div class="panel"><h3>آخر العمليات</h3><div id="recentTransactions"></div></div>
+</section>
+
+<section id="profileSection" class="section">
+  <div class="panel"><h2>المعلومات الشخصية</h2><div id="profileData"></div><button id="verifyBtn" class="primary">توثيق الحساب</button></div>
+</section>
+
+<section id="transactionsSection" class="section">
+ <div class="panel"><h2>جميع العمليات</h2>
+ <input id="transactionSearch" placeholder="البحث برقم العملية (12 رقم)">
+ <select id="transactionFilter"><option value="all">كل العمليات</option><option value="deposit">الإيداع</option><option value="withdraw">السحب</option><option value="transfer">التحويل</option></select>
+ <div id="allTransactions"></div></div>
+</section>
+</main>
+
+<nav class="bottom-nav">
+<button data-section="homeSection">⌂<span>الرئيسية</span></button>
+<button data-section="profileSection">♙<span>الحساب</span></button>
+<button data-section="transactionsSection">⇅<span>العمليات</span></button>
+<button id="logoutBtn">⇥<span>خروج</span></button>
+</nav>
+
+<a class="whatsapp" href="https://wa.me/message/LPX3FF4TG4XWK1" target="_blank">☏</a>
+
+<div class="modal" id="depositModal"><div class="modal-box"><button class="close">×</button><h2>تعبئة المحفظة</h2>
+<div class="transfer-info"><span>من</span><b id="depositFrom"></b></div><div class="arrow">↓</div><div class="transfer-info"><span>إلى</span><b>07732773761</b></div>
+<label>المبلغ</label><input id="depositAmount" type="number" min="10000" max="60000">
+<div class="ussd"><span>كود التحويل</span><b id="ussdCode">*123*المبلغ*07732773761#</b><button id="copyUssd">نسخ</button></div>
+<div class="net-box">المبلغ الصافي الذي سوف يضاف لمحفظتك: <b id="netAmount">0 د.ع</b></div>
+<label>صورة إثبات التحويل</label><input id="depositImage" type="file" accept="image/*"><small>سيتم ضغط الصورة قبل الرفع.</small>
+<button id="submitDeposit" class="primary">إتمام عملية الإيداع</button></div></div>
+
+<div class="modal" id="verifyModal"><div class="modal-box"><button class="close">×</button><h2>توثيق الحساب</h2>
+<label>اسم صاحب حساب بطاقة الرافدين (سوبركي)</label><input id="bankName">
+<label>رقم حساب الرافدين</label><input id="bankAccount" inputmode="numeric" maxlength="12">
+<small>يجب أن يكون من 8 إلى 12 رقمًا ولا يمكن تغييره لاحقًا.</small><button id="submitVerification" class="primary">طلب التوثيق</button></div></div>
+
+<div class="modal" id="withdrawModal"><div class="modal-box"><button class="close">×</button><h2>طلب سحب</h2><p id="withdrawHint"></p><label>المبلغ</label><input id="withdrawAmount" type="number"><div class="fee-box">عمولة السحب: 250 د.ع</div><button id="submitWithdraw" class="primary">إرسال طلب السحب</button></div></div>
+
+<div class="modal" id="transferModal"><div class="modal-box"><button class="close">×</button><h2>تحويل بين المحافظ</h2>
+<label>رقم المحفظة المستلمة</label><input id="targetWallet" placeholder="G12345678"><div id="recipientName" class="recipient"></div>
+<label>المبلغ</label><input id="transferAmount" type="number"><div class="fee-box">عمولة التحويل: 250 د.ع</div><button id="prepareTransfer" class="primary">متابعة</button>
+<div id="transferConfirm" hidden class="confirm-box"><h3>تأكيد التحويل</h3><div id="confirmDetails"></div><button id="confirmTransfer" class="primary">تأكيد</button><button id="cancelTransfer" class="secondary">إلغاء</button></div>
+</div></div>
+<div id="toast" class="toast"></div>
+<script type="module" src="js/wallet.js"></script>
+</body></html>

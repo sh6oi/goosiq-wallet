@@ -1,0 +1,15 @@
+{
+  "rules": {
+    ".read": "auth != null",
+    "users": {
+      "$uid": {
+        ".read": "auth != null && (auth.uid === $uid || root.child('users').child(auth.uid).child('role').val() === 'admin')",
+        ".write": "auth != null && auth.uid === $uid"
+      }
+    },
+    "transactions": { ".read": "auth != null", ".write": "auth != null" },
+    "depositRequests": { ".read": "auth != null", ".write": "auth != null" },
+    "withdrawRequests": { ".read": "auth != null", ".write": "auth != null" },
+    "verificationRequests": { ".read": "auth != null", ".write": "auth != null" }
+  }
+}

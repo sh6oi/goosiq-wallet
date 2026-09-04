@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>GOOSIQ ADMIN</title><link rel="stylesheet" href="css/style.css"></head>
+<body class="app-page admin-page">
+<header class="topbar"><div class="mini-logo">G</div><b>GOOSIQ WALLET — ADMIN</b><button id="adminLogout" class="icon-btn">تسجيل الخروج</button></header>
+<main class="admin-main">
+<div class="admin-grid">
+<button data-admin="users">👥 إدارة المستخدمين</button>
+<button data-admin="verifications">🪪 طلبات التوثيق</button>
+<button data-admin="deposits">➕ طلبات الإيداع</button>
+<button data-admin="withdrawals">💸 طلبات السحب</button>
+</div>
+<section class="panel"><div class="toolbar"><input id="adminSearch" placeholder="بحث..."><select id="sortDate"><option value="desc">الأحدث أولًا</option><option value="asc">الأقدم أولًا</option></select></div><div id="adminContent"></div></section>
+</main>
+<div id="toast" class="toast"></div>
+<script type="module" src="js/admin.js"></script></body></html>
